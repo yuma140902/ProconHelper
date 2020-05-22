@@ -81,10 +81,12 @@
     </Compile>
     <Compile Include="Model\EmbedableString.cs" />
     <Compile Include="Model\Embedment.cs" />
+    <Compile Include="Model\EmbedmentObjectDictionary.cs" />
     <Compile Include="Model\ExecutionInfo.cs" />
     <Compile Include="Model\ProcessInfo.cs" />
     <Compile Include="Model\RunMode.cs" />
     <Compile Include="Model\Setting.cs" />
+    <Compile Include="ProcessRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry\EmbedmentRegistry.cs" />

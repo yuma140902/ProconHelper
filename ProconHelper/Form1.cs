@@ -48,7 +48,7 @@ namespace ProconHelper
 
 		private void CompileBtn_Click(object sender, EventArgs e)
 		{
-			RunCompiler(sourceFileBox.Text);
+			RunCompiler();
 		}
 
 		private void RunBtn_Click(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace ProconHelper
 
 		private void CompileAndRunBtn_Click(object sender, EventArgs e)
 		{
-			bool succeeded = RunCompiler(sourceFileBox.Text);
+			bool succeeded = RunCompiler();
 			if (succeeded) {
 				RunProgram(sourceFileBox.Text);
 			}
@@ -72,30 +72,13 @@ namespace ProconHelper
 			this.mainTabControl.SelectedIndex = 1;
 		}
 
-		private bool RunCompiler(string srcPath)
+		private bool RunCompiler()
 		{
-			var embedObjs = new EmbedmentObjectDictionary<string>();
-			embedObjs.UpdateObject("srcPath", srcPath);
-
-			var proc = new Process
-			{
-				StartInfo = Setting.CompilerProcess.CreateProcessStartInfo(embedObjs)
-			};
-			proc.Start();
-
-			//string stdout = proc.StandardOutput.ReadToEnd();
-			string stderr = proc.StandardError.ReadToEnd();
-
-			proc.WaitForExit();
-			proc.Close();
-
-			this.compilerOutputBox.UpdateTextAndScrollToEnd(stderr.ReplaceN2RN());
-			if (!string.IsNullOrWhiteSpace(stderr)) {
+			bool result = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
+			if (!string.IsNullOrWhiteSpace(this.compilerOutputBox.Text)) {
 				ForcusCompilerLogTab();
 			}
-			
-
-			return string.IsNullOrWhiteSpace(stderr);
+			return result;
 		}
 
 		private void RunProgram(string srcPath)
