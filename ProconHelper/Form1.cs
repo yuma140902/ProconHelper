@@ -48,13 +48,11 @@ namespace ProconHelper
 
 		private void CompileBtn_Click(object sender, EventArgs e)
 		{
-			RunCompiler();
+			bool succeeded = RunCompiler();
+			if (!succeeded) ForcusCompilerLogTab();
 		}
 
-		private void RunBtn_Click(object sender, EventArgs e)
-		{
-			RunProgram();
-		}
+		private void RunBtn_Click(object sender, EventArgs e) => RunProgram();
 
 		private void CompileAndRunBtn_Click(object sender, EventArgs e)
 		{
@@ -63,23 +61,14 @@ namespace ProconHelper
 				RunProgram();
 			}
 			else {
-				mainTabControl.SelectedIndex = 1;
-			}
-		}
-
-		private void ForcusCompilerLogTab()
-		{
-			this.mainTabControl.SelectedIndex = 1;
-		}
-
-		private bool RunCompiler()
-		{
-			bool result = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
-			if (!string.IsNullOrWhiteSpace(this.compilerOutputBox.Text)) {
 				ForcusCompilerLogTab();
 			}
-			return result;
 		}
+
+		private void ForcusCompilerLogTab() => this.mainTabControl.SelectedIndex = 1;
+
+		private bool RunCompiler()
+			=> ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
 
 		private void RunProgram()
 			=> ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox, this.stdOutBox, this.StdErrorView, this.runInfoBox, this.Setting.ExecutionProcess);
