@@ -24,6 +24,8 @@ namespace ProconHelper.Model
 		public void SetMemory(long memory, string memoryUnit)
 			=> (this.Memory, this.MemoryUnit) = (memory, memoryUnit);
 
+		public void SetMemoryNoData()	=> this.SetMemory(-1, " (No data)");
+
 		public void SetTime(double time, string timeUnit)
 			=> (this.Time, this.TimeUnit) = (time, timeUnit);
 

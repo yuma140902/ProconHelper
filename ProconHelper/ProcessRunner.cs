@@ -57,7 +57,7 @@ namespace ProconHelper
 				execInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
 			}
 			catch (InvalidOperationException) {
-				execInfo.SetMemory(-1, " (No data)");
+				execInfo.SetMemoryNoData();
 			}
 
 			proc.WaitForExit(terminateMs);
