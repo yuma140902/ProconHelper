@@ -53,14 +53,14 @@ namespace ProconHelper
 
 		private void RunBtn_Click(object sender, EventArgs e)
 		{
-			RunProgram();
+			RunProgram(sourceFileBox.Text);
 		}
 
 		private void CompileAndRunBtn_Click(object sender, EventArgs e)
 		{
 			bool succeeded = RunCompiler(sourceFileBox.Text);
 			if (succeeded) {
-				RunProgram();
+				RunProgram(sourceFileBox.Text);
 			}
 			else {
 				mainTabControl.SelectedIndex = 1;
@@ -72,14 +72,9 @@ namespace ProconHelper
 			this.mainTabControl.SelectedIndex = 1;
 		}
 
-		private void UpdateEmbedmentObjects()
+		private bool RunCompiler(string srcPath)
 		{
-			EmbedmentRegistry.UpdateObject("srcPath", sourceFileBox.Text);
-		}
-
-		private bool RunCompiler(string srcFileName)
-		{
-			UpdateEmbedmentObjects();
+			EmbedmentRegistry.UpdateObject("srcPath", srcPath);
 
 			var proc = new Process
 			{
@@ -102,9 +97,9 @@ namespace ProconHelper
 			return string.IsNullOrWhiteSpace(stderr);
 		}
 
-		private void RunProgram()
+		private void RunProgram(string srcPath)
 		{
-			UpdateEmbedmentObjects();
+			EmbedmentRegistry.UpdateObject("srcPath", srcPath);
 
 			string stdout = "";
 			string stderr = "";
