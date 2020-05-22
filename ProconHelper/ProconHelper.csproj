@@ -79,7 +79,6 @@
     <Compile Include="Forms\StandardErrorOutputView.Designer.cs">
       <DependentUpon>StandardErrorOutputView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1Part\CompilerLogs.cs" />
     <Compile Include="Model\EmbedableString.cs" />
     <Compile Include="Model\Embedment.cs" />
     <Compile Include="Model\ProcessInfo.cs" />
@@ -90,7 +89,9 @@
     <Compile Include="Registry\EmbedmentRegistry.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Util\FileSystemAccessor.cs" />
+    <Compile Include="Util\StringUtils.cs" />
     <Compile Include="Util\TimeUtil.cs" />
+    <Compile Include="Util\UIUtils.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

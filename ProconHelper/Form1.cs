@@ -18,7 +18,6 @@ namespace ProconHelper
 {
 	public partial class Form1 : Form
 	{
-		private readonly CompilerLogs CompilerLogs;
 		private readonly StandardErrorOutputView StdErrorView = new StandardErrorOutputView();
 		private Setting Setting;
 
@@ -26,7 +25,6 @@ namespace ProconHelper
 		{
 			InitializeComponent();
 			testCasesComboBox.SelectedIndex = 0;
-			this.CompilerLogs = new CompilerLogs(this.compilerOutputBox);
 			this.Setting = new Setting()
 			{
 				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcFile}"), RunMode.InCommandLine),
@@ -95,7 +93,7 @@ namespace ProconHelper
 			proc.WaitForExit();
 			proc.Close();
 
-			CompilerLogs.SetLog(stderr);
+			this.compilerOutputBox.UpdateTextAndScrollToEnd(stderr.ReplaceN2RN());
 			if (!string.IsNullOrWhiteSpace(stderr)) {
 				ForcusCompilerLogTab();
 			}
