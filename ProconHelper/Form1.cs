@@ -24,7 +24,7 @@ namespace ProconHelper
 		public Form1()
 		{
 			InitializeComponent();
-			testCasesComboBox.SelectedIndex = 0;
+			FocusMainTab();
 			this.Setting = new Setting()
 			{
 				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
@@ -49,7 +49,7 @@ namespace ProconHelper
 		private void CompileBtn_Click(object sender, EventArgs e)
 		{
 			bool succeeded = RunCompiler();
-			if (!succeeded) ForcusCompilerLogTab();
+			if (!succeeded) FocusCompilerLogTab();
 		}
 
 		private void RunBtn_Click(object sender, EventArgs e) => RunProgram();
@@ -61,11 +61,13 @@ namespace ProconHelper
 				RunProgram();
 			}
 			else {
-				ForcusCompilerLogTab();
+				FocusCompilerLogTab();
 			}
 		}
 
-		private void ForcusCompilerLogTab() => this.mainTabControl.SelectedIndex = 1;
+		private void FocusMainTab() => this.mainTabControl.SelectedIndex = 0;
+
+		private void FocusCompilerLogTab() => this.mainTabControl.SelectedIndex = 1;
 
 		private bool RunCompiler()
 			=> ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
