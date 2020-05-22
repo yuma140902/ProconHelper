@@ -53,14 +53,14 @@ namespace ProconHelper
 
 		private void RunBtn_Click(object sender, EventArgs e)
 		{
-			RunProgram(sourceFileBox.Text);
+			RunProgram();
 		}
 
 		private void CompileAndRunBtn_Click(object sender, EventArgs e)
 		{
 			bool succeeded = RunCompiler();
 			if (succeeded) {
-				RunProgram(sourceFileBox.Text);
+				RunProgram();
 			}
 			else {
 				mainTabControl.SelectedIndex = 1;
@@ -81,53 +81,8 @@ namespace ProconHelper
 			return result;
 		}
 
-		private void RunProgram(string srcPath)
-		{
-			var embedObjs = new EmbedmentObjectDictionary<string>();
-			embedObjs.UpdateObject("srcPath", srcPath);
-
-			string stdout = "";
-			string stderr = "";
-			int terminateMs = 5000;
-			var executionInfo = new ExecutionInfo();
-
-			var proc = new Process
-			{
-				StartInfo = Setting.ExecutionProcess.CreateProcessStartInfo(embedObjs)
-			};
-
-			proc.Start();
-
-			proc.StandardInput.Write(stdInBox.Text + Environment.NewLine);
-			proc.StandardInput.Flush();
-
-			try {
-				executionInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
-			}
-			catch (InvalidOperationException) {
-				executionInfo.SetMemory(-1, " (No data)");
-			}
-
-			proc.WaitForExit(terminateMs);
-
-			if (proc.HasExited) {
-				executionInfo.SetTime(proc.UserProcessorTime.TotalMilliseconds, "ms");
-				executionInfo.ExitCode = proc.ExitCode;
-
-				stdout = proc.StandardOutput.ReadToEnd();
-				stderr = proc.StandardError.ReadToEnd();
-
-				proc.Close();
-			}
-			else {
-				if (!proc.CloseMainWindow()) proc.Kill();
-				executionInfo.SetTerminated(terminateMs, "ms");
-			}
-
-			stdOutBox.Text = stdout;
-			StdErrorView.SetStdError(stderr);
-			runInfoBox.Text = executionInfo.ToString();
-		}
+		private void RunProgram()
+			=> ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox, this.stdOutBox, this.StdErrorView, this.runInfoBox, this.Setting.ExecutionProcess);
 
 		private void SettingsBtn_Click(object sender, EventArgs e)
 		{
