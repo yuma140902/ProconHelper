@@ -35,15 +35,13 @@ namespace ProconHelper
 			return string.IsNullOrWhiteSpace(stderr);
 		}
 
-		public static void RunProgram(string srcPath, TextBox stdInBox, TextBox stdOutBox, StandardErrorOutputView stdErrView, TextBox runInfoBox, ProcessInfo executionProcessInfo)
+		public static ExecutionInfo RunProgram(string srcPath, string stdin, ProcessInfo executionProcessInfo)
 		{
 			var embedObjs = new EmbedmentObjectDictionary<string>();
 			embedObjs.UpdateObject("srcPath", srcPath);
 
-			string stdout = "";
-			string stderr = "";
 			int terminateMs = 5000;
-			var executionInfo = new ExecutionInfo();
+			var execInfo = new ExecutionInfo();
 
 			var proc = new Process
 			{
@@ -52,35 +50,33 @@ namespace ProconHelper
 
 			proc.Start();
 
-			proc.StandardInput.Write(stdInBox.Text + Environment.NewLine);
+			proc.StandardInput.Write(stdin);
 			proc.StandardInput.Flush();
 
 			try {
-				executionInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
+				execInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
 			}
 			catch (InvalidOperationException) {
-				executionInfo.SetMemory(-1, " (No data)");
+				execInfo.SetMemory(-1, " (No data)");
 			}
 
 			proc.WaitForExit(terminateMs);
 
 			if (proc.HasExited) {
-				executionInfo.SetTime(proc.UserProcessorTime.TotalMilliseconds, "ms");
-				executionInfo.ExitCode = proc.ExitCode;
+				execInfo.SetTime(proc.UserProcessorTime.TotalMilliseconds, "ms");
+				execInfo.ExitCode = proc.ExitCode;
 
-				stdout = proc.StandardOutput.ReadToEnd();
-				stderr = proc.StandardError.ReadToEnd();
+				execInfo.stdout = proc.StandardOutput.ReadToEnd();
+				execInfo.stderr = proc.StandardError.ReadToEnd();
 
 				proc.Close();
 			}
 			else {
 				if (!proc.CloseMainWindow()) proc.Kill();
-				executionInfo.SetTerminated(terminateMs, "ms");
+				execInfo.SetTerminated(terminateMs, "ms");
 			}
 
-			stdOutBox.Text = stdout;
-			stdErrView.SetStdError(stderr);
-			runInfoBox.Text = executionInfo.ToString();
+			return execInfo;
 		}
 	}
 }

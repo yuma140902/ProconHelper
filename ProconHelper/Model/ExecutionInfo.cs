@@ -14,6 +14,9 @@ namespace ProconHelper.Model
 		public string TimeUnit = "ms";
 		public int ExitCode = 0;
 
+		public string stdout;
+		public string stderr;
+
 		public bool IsTerminated = false;
 		public int WaitTime;
 		public string WaitTimeUnit = "ms";
@@ -30,7 +33,7 @@ namespace ProconHelper.Model
 			(this.WaitTime, this.WaitTimeUnit) = (waitTime, waitTimeUnit);
 		}
 
-		public override string ToString()
+		public string ToMemoryTimeExitCodeString()
 		{
 			var sb = new StringBuilder();
 			if (!this.IsTerminated) {

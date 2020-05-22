@@ -73,7 +73,12 @@ namespace ProconHelper
 			=> ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
 
 		private void RunProgram()
-			=> ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox, this.stdOutBox, this.StdErrorView, this.runInfoBox, this.Setting.ExecutionProcess);
+		{
+			var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, this.Setting.ExecutionProcess);
+			this.stdOutBox.Text = execInfo.stdout;
+			this.StdErrorView.SetStdError(execInfo.stderr);
+			this.runInfoBox.Text = execInfo.ToMemoryTimeExitCodeString();
+		}
 
 		private void SettingsBtn_Click(object sender, EventArgs e)
 		{
