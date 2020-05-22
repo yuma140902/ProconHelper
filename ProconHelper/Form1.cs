@@ -109,7 +109,7 @@ namespace ProconHelper
 			string stdout = "";
 			string stderr = "";
 			int terminateMs = 5000;
-			var procInfo = new StringBuilder();
+			var executionInfo = new ExecutionInfo();
 
 			var proc = new Process
 			{
@@ -121,13 +121,13 @@ namespace ProconHelper
 			proc.StandardInput.Write(stdInBox.Text + Environment.NewLine);
 			proc.StandardInput.Flush();
 
-			procInfo.Append("Memory: ").Append(proc.PrivateMemorySize64 / 1024).Append("KB").AppendLine();
+			executionInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
 
 			proc.WaitForExit(terminateMs);
 
 			if (proc.HasExited) {
-				procInfo.Append("Time: ").Append(proc.UserProcessorTime.TotalMilliseconds).Append("ms").AppendLine();
-				procInfo.Append("Return: ").Append(proc.ExitCode).AppendLine();
+				executionInfo.SetTime(proc.UserProcessorTime.TotalMilliseconds, "ms");
+				executionInfo.ExitCode = proc.ExitCode;
 
 				stdout = proc.StandardOutput.ReadToEnd();
 				stderr = proc.StandardError.ReadToEnd();
@@ -136,13 +136,12 @@ namespace ProconHelper
 			}
 			else {
 				if (!proc.CloseMainWindow()) proc.Kill();
-				procInfo.AppendLine($"Time: >= {terminateMs}ms");
-				procInfo.AppendLine("Proccess Terminated");
+				executionInfo.SetTerminated(terminateMs, "ms");
 			}
 
 			stdOutBox.Text = stdout;
 			StdErrorView.SetStdError(stderr);
-			runInfoBox.Text = procInfo.ToString();
+			runInfoBox.Text = executionInfo.ToString();
 		}
 
 		private void SettingsBtn_Click(object sender, EventArgs e)
