@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,6 +21,8 @@ namespace ProconHelper
 	{
 		private readonly StandardErrorOutputView StdErrorView = new StandardErrorOutputView();
 		private Setting Setting;
+
+		private Task CurrentTask = null;
 
 		public Form1()
 		{
@@ -69,6 +72,20 @@ namespace ProconHelper
 
 		private void FocusCompilerLogTab() => this.mainTabControl.SelectedIndex = 1;
 
+		private void DisableAllTaskRunnerBtn()
+		{
+			this.runBtn.Enabled = false;
+			this.compileBtn.Enabled = false;
+			this.compileAndRunBtn.Enabled = false;
+		}
+
+		private void EnableAllTaskRunnerBtn()
+		{
+			this.runBtn.Enabled = true;
+			this.compileBtn.Enabled = true;
+			this.compileAndRunBtn.Enabled = true;
+		}
+
 		private bool RunCompiler()
 		{
 			var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
@@ -78,10 +95,25 @@ namespace ProconHelper
 
 		private void RunProgram()
 		{
-			var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, this.Setting.ExecutionProcess);
-			this.stdOutBox.Text = execInfo.stdout;
-			this.StdErrorView.SetStdError(execInfo.stderr);
-			this.runInfoBox.Text = execInfo.ToMemoryTimeExitCodeString();
+			if(this.CurrentTask != null) {
+				MessageBox.Show("前のタスクが実行中です", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			var context = SynchronizationContext.Current;
+			this.CurrentTask = Task.Run(() =>
+				{
+					context.Post(_ => this.DisableAllTaskRunnerBtn(), null);
+					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, this.Setting.ExecutionProcess);
+					context.Post(_ =>
+					{
+						this.stdOutBox.Text = execInfo.stdout;
+						this.StdErrorView.SetStdError(execInfo.stderr);
+						this.runInfoBox.Text = execInfo.ToMemoryTimeExitCodeString();
+						this.EnableAllTaskRunnerBtn();
+						this.CurrentTask = null;
+					}, null);
+				});
 		}
 
 		private void SettingsBtn_Click(object sender, EventArgs e)
