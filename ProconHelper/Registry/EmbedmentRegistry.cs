@@ -11,7 +11,7 @@ namespace ProconHelper.Registry
 	{
 		private static readonly List<Embedment> embedments = new List<Embedment>()
 		{
-			new Embedment("srcFile", "ソースファイルのフルパス")
+			new Embedment("srcPath", "ソースファイルのフルパス")
 		};
 
 		private static readonly Dictionary<string, object> objects = new Dictionary<string, object>();

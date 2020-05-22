@@ -27,7 +27,7 @@ namespace ProconHelper
 			testCasesComboBox.SelectedIndex = 0;
 			this.Setting = new Setting()
 			{
-				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcFile}"), RunMode.InCommandLine),
+				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
 				ExecutionProcess = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess)
 			};
 		}
@@ -74,7 +74,7 @@ namespace ProconHelper
 
 		private void UpdateEmbedmentObjects()
 		{
-			EmbedmentRegistry.UpdateObject("srcFile", sourceFileBox.Text);
+			EmbedmentRegistry.UpdateObject("srcPath", sourceFileBox.Text);
 		}
 
 		private bool RunCompiler(string srcFileName)
