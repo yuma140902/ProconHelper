@@ -29,6 +29,7 @@
 		{
 			this.mainTabControl = new System.Windows.Forms.TabControl();
 			this.mainTabPage = new System.Windows.Forms.TabPage();
+			this.label3 = new System.Windows.Forms.Label();
 			this.pasteTestCaseBtn = new System.Windows.Forms.Button();
 			this.settingsBtn = new System.Windows.Forms.Button();
 			this.compileAndRunBtn = new System.Windows.Forms.Button();
@@ -52,7 +53,6 @@
 			this.compilerTabPage = new System.Windows.Forms.TabPage();
 			this.compilerOutputBox = new System.Windows.Forms.TextBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.label3 = new System.Windows.Forms.Label();
 			this.mainTabControl.SuspendLayout();
 			this.mainTabPage.SuspendLayout();
 			this.outputTableLayoutPanel.SuspendLayout();
@@ -96,6 +96,15 @@
 			this.mainTabPage.TabIndex = 0;
 			this.mainTabPage.Text = "メイン";
 			this.mainTabPage.UseVisualStyleBackColor = true;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(380, 514);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(84, 24);
+			this.label3.TabIndex = 20;
+			this.label3.Text = "ver1.2.0\r\nby yuma140902";
 			// 
 			// pasteTestCaseBtn
 			// 
@@ -348,15 +357,6 @@
 			this.openFileDialog.Filter = "Cファイル|*.cpp|すべてのファイル|*.*";
 			this.openFileDialog.InitialDirectory = "Z:\\tmp\\_procon";
 			this.openFileDialog.Title = "ソース・ファイルを選択";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(380, 514);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(84, 24);
-			this.label3.TabIndex = 20;
-			this.label3.Text = "ver1.1.0\r\nby yuma140902";
 			// 
 			// Form1
 			// 
