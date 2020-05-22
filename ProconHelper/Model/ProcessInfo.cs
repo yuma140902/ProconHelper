@@ -29,7 +29,7 @@ namespace ProconHelper.Model
 			}
 		}
 
-		public ProcessStartInfo CreateProcessStartInfo()
+		public ProcessStartInfo CreateProcessStartInfo<T>(EmbedmentObjectDictionary<T> dictionary)
 		{
 			var info = new ProcessStartInfo();
 
@@ -43,12 +43,12 @@ namespace ProconHelper.Model
 				// cmd.exe のパスを取得
 				info.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
 
-				string command = CommandAndArgs?.Embed(EmbedmentRegistry.Objects());
+				string command = CommandAndArgs?.Embed(dictionary);
 				info.Arguments = $@"/c ""{command}""";
 			}
 			else {
-				info.FileName = Command?.Embed(EmbedmentRegistry.Objects());
-				info.Arguments = Arguments?.Embed(EmbedmentRegistry.Objects());
+				info.FileName = Command?.Embed(dictionary);
+				info.Arguments = Arguments?.Embed(dictionary);
 			}
 
 			return info;

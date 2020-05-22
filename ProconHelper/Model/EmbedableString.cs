@@ -14,10 +14,10 @@ namespace ProconHelper.Model
 
 		public readonly string Image;
 
-		public string Embed(Dictionary<string, object> values)
+		public string Embed<T>(EmbedmentObjectDictionary<T> dictionary)
 		{
 			string image = Image;
-			foreach(var value in values) {
+			foreach(var value in dictionary.Objects) {
 				string target = value.Key;
 				object obj = value.Value;
 				var embed = EmbedmentRegistry.GetOrNull(target);

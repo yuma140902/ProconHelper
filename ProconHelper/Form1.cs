@@ -74,11 +74,12 @@ namespace ProconHelper
 
 		private bool RunCompiler(string srcPath)
 		{
-			EmbedmentRegistry.UpdateObject("srcPath", srcPath);
+			var embedObjs = new EmbedmentObjectDictionary<string>();
+			embedObjs.UpdateObject("srcPath", srcPath);
 
 			var proc = new Process
 			{
-				StartInfo = Setting.CompilerProcess.CreateProcessStartInfo()
+				StartInfo = Setting.CompilerProcess.CreateProcessStartInfo(embedObjs)
 			};
 			proc.Start();
 
@@ -99,7 +100,8 @@ namespace ProconHelper
 
 		private void RunProgram(string srcPath)
 		{
-			EmbedmentRegistry.UpdateObject("srcPath", srcPath);
+			var embedObjs = new EmbedmentObjectDictionary<string>();
+			embedObjs.UpdateObject("srcPath", srcPath);
 
 			string stdout = "";
 			string stderr = "";
@@ -108,7 +110,7 @@ namespace ProconHelper
 
 			var proc = new Process
 			{
-				StartInfo = Setting.ExecutionProcess.CreateProcessStartInfo()
+				StartInfo = Setting.ExecutionProcess.CreateProcessStartInfo(embedObjs)
 			};
 
 			proc.Start();
