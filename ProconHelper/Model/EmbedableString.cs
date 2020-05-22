@@ -1,0 +1,32 @@
+﻿using ProconHelper.Registry;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProconHelper.Model
+{
+	class EmbedableString
+	{
+		public EmbedableString(string image) => this.Image = image;
+
+		public readonly string Image;
+
+		public string Embed(Dictionary<string, object> values)
+		{
+			string image = Image;
+			foreach(var value in values) {
+				string target = value.Key;
+				object obj = value.Value;
+				var embed = EmbedmentRegistry.GetOrNull(target);
+				if (embed == null) continue;
+				image = image.Replace("{" + target + "}", obj.ToString());
+			}
+			return image;
+		}
+
+		public override string ToString() => Image;
+	}
+}
