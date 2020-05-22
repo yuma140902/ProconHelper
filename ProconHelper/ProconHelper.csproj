@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Model\EmbedableString.cs" />
     <Compile Include="Model\Embedment.cs" />
+    <Compile Include="Model\ExecutionInfo.cs" />
     <Compile Include="Model\ProcessInfo.cs" />
     <Compile Include="Model\RunMode.cs" />
     <Compile Include="Model\Setting.cs" />

@@ -121,7 +121,12 @@ namespace ProconHelper
 			proc.StandardInput.Write(stdInBox.Text + Environment.NewLine);
 			proc.StandardInput.Flush();
 
-			executionInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
+			try {
+				executionInfo.SetMemory(proc.PrivateMemorySize64 / 1024, "KB");
+			}
+			catch (InvalidOperationException) {
+				executionInfo.SetMemory(-1, " (No data)");
+			}
 
 			proc.WaitForExit(terminateMs);
 
