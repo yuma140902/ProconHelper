@@ -70,7 +70,11 @@ namespace ProconHelper
 		private void FocusCompilerLogTab() => this.mainTabControl.SelectedIndex = 1;
 
 		private bool RunCompiler()
-			=> ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.compilerOutputBox, this.Setting.CompilerProcess);
+		{
+			var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
+			compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
+			return execInfo.ExitCode == 0;
+		}
 
 		private void RunProgram()
 		{
