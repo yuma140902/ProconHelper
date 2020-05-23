@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProconHelper.Model
 {
-	class Setting
+	class ApplicationSetting
 	{
 		public ProcessInfo CompilerProcess;
 		public ProcessInfo ExecutionProcess;

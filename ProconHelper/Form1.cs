@@ -20,7 +20,7 @@ namespace ProconHelper
 	public partial class Form1 : Form
 	{
 		private readonly StandardErrorOutputView StdErrorView = new StandardErrorOutputView();
-		private Setting Setting;
+		private ApplicationSetting Setting;
 
 		private Task CurrentTask = null;
 
@@ -28,7 +28,7 @@ namespace ProconHelper
 		{
 			InitializeComponent();
 			FocusMainTab();
-			this.Setting = new Setting()
+			this.Setting = new ApplicationSetting()
 			{
 				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
 				ExecutionProcess = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess)
