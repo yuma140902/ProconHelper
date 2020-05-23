@@ -51,21 +51,27 @@ namespace ProconHelper
 
 		private void CompileBtn_Click(object sender, EventArgs e)
 		{
-			bool succeeded = RunCompiler();
-			if (!succeeded) FocusCompilerLogTab();
+			var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			RunCompiler().ContinueWith(task =>
+				{
+					if (!task.Result) FocusCompilerLogTab();
+				}, uiScheduler);
 		}
 
 		private void RunBtn_Click(object sender, EventArgs e) => RunProgram();
 
 		private void CompileAndRunBtn_Click(object sender, EventArgs e)
 		{
-			bool succeeded = RunCompiler();
-			if (succeeded) {
-				RunProgram();
-			}
-			else {
-				FocusCompilerLogTab();
-			}
+			var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			RunCompiler().ContinueWith(task =>
+			{
+				if (task.Result) {
+					RunProgram();
+				}
+				else {
+					FocusCompilerLogTab();
+				}
+			}, uiScheduler);
 		}
 
 		private void FocusMainTab() => this.mainTabControl.SelectedIndex = 0;
@@ -86,20 +92,38 @@ namespace ProconHelper
 			this.compileAndRunBtn.Enabled = true;
 		}
 
-		private bool RunCompiler()
+		/// <returns>他のタスクが実行中ならtrue、そうでなければfalse</returns>
+		private bool CheckAndWarnIfOtherTaskIsRunning()
+		{
+			if (this.CurrentTask != null) {
+				MessageBox.Show("前のタスクが実行中です", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return true;
+			}
+			return false;
+		}
+
+		/// <returns>コンパイルに成功したらtrue、失敗したらfalseを返すようなTask&lt;bool&gt;</returns>
+		private Task<bool> RunCompiler()
 		{
 			this.runInfoBox.Text = "コンパイル中...";
-			var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
-			compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
-			return execInfo.ExitCode == 0;
+			DisableAllTaskRunnerBtn();
+			var context = SynchronizationContext.Current;
+			return Task.Run(() =>
+			{
+				var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
+				context.Post(_ =>
+				{
+					this.compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
+					EnableAllTaskRunnerBtn();
+					this.runInfoBox.Text = "";
+				}, null);
+				return execInfo.ExitCode == 0;
+			});
 		}
 
 		private void RunProgram()
 		{
-			if(this.CurrentTask != null) {
-				MessageBox.Show("前のタスクが実行中です", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+			if (CheckAndWarnIfOtherTaskIsRunning()) return;
 
 			DisableAllTaskRunnerBtn();
 			this.runInfoBox.Text = "実行中...";
