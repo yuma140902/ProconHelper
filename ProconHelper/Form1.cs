@@ -104,7 +104,7 @@ namespace ProconHelper
 			var context = SynchronizationContext.Current;
 			return Task.Run(() =>
 			{
-				var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, Program.Setting.CompilerProcess);
+				var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, Program.Setting.ProgrammingLanguage.CompilerProcessInfo);
 				context.Post(_ =>
 				{
 					this.compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
@@ -124,7 +124,7 @@ namespace ProconHelper
 			var context = SynchronizationContext.Current;
 			this.CurrentTask = Task.Run(() =>
 				{
-					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, Program.Setting.ExecutionProcess);
+					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, Program.Setting.ProgrammingLanguage.ExecutionProcessInfo);
 					context.Post(_ =>
 					{
 						this.stdOutBox.Text = execInfo.stdout;

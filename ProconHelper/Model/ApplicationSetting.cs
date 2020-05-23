@@ -8,7 +8,6 @@ namespace ProconHelper.Model
 {
 	class ApplicationSetting
 	{
-		public ProcessInfo CompilerProcess;
-		public ProcessInfo ExecutionProcess;
+		public ProgrammingLanguageInfo ProgrammingLanguage;
 	}
 }

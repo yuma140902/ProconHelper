@@ -11,8 +11,13 @@ namespace ProconHelper
 	{
 		public static readonly ApplicationSetting Setting = new ApplicationSetting()
 		{
-			CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
-			ExecutionProcess = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess)
+			ProgrammingLanguage = new ProgrammingLanguageInfo()
+			{
+				Name = "C++ 14 with Boost (g++)",
+				CompilerProcessInfo = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
+				ExecutionProcessInfo = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess),
+				Extensions = new List<string>() { ".cpp" }
+			}
 		};
 
 		/// <summary>
