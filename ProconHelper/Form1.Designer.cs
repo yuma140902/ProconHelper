@@ -104,7 +104,7 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(84, 24);
 			this.label3.TabIndex = 20;
-			this.label3.Text = "ver1.3.0\r\nby yuma140902";
+			this.label3.Text = "ver1.4.0\r\nby yuma140902";
 			// 
 			// pasteTestCaseBtn
 			// 
