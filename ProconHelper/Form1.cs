@@ -88,6 +88,7 @@ namespace ProconHelper
 
 		private bool RunCompiler()
 		{
+			this.runInfoBox.Text = "コンパイル中...";
 			var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
 			compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
 			return execInfo.ExitCode == 0;
