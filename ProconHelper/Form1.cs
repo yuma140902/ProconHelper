@@ -20,7 +20,6 @@ namespace ProconHelper
 	public partial class Form1 : Form
 	{
 		private readonly StandardErrorOutputView StdErrorView = new StandardErrorOutputView();
-		private ApplicationSetting Setting;
 
 		private Task CurrentTask = null;
 
@@ -28,11 +27,6 @@ namespace ProconHelper
 		{
 			InitializeComponent();
 			FocusMainTab();
-			this.Setting = new ApplicationSetting()
-			{
-				CompilerProcess = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
-				ExecutionProcess = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess)
-			};
 		}
 
 		private void SourceFileRefFsBtn_Click(object sender, EventArgs e)
@@ -110,7 +104,7 @@ namespace ProconHelper
 			var context = SynchronizationContext.Current;
 			return Task.Run(() =>
 			{
-				var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, this.Setting.CompilerProcess);
+				var execInfo = ProcessRunner.RunCompiler(this.sourceFileBox.Text, Program.Setting.CompilerProcess);
 				context.Post(_ =>
 				{
 					this.compilerOutputBox.UpdateTextAndScrollToEnd(execInfo.stderr.ReplaceN2RN());
@@ -130,7 +124,7 @@ namespace ProconHelper
 			var context = SynchronizationContext.Current;
 			this.CurrentTask = Task.Run(() =>
 				{
-					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, this.Setting.ExecutionProcess);
+					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, Program.Setting.ExecutionProcess);
 					context.Post(_ =>
 					{
 						this.stdOutBox.Text = execInfo.stdout;
