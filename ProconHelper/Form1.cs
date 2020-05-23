@@ -100,17 +100,17 @@ namespace ProconHelper
 				return;
 			}
 
+			DisableAllTaskRunnerBtn();
 			var context = SynchronizationContext.Current;
 			this.CurrentTask = Task.Run(() =>
 				{
-					context.Post(_ => this.DisableAllTaskRunnerBtn(), null);
 					var execInfo = ProcessRunner.RunProgram(this.sourceFileBox.Text, this.stdInBox.Text + Environment.NewLine, this.Setting.ExecutionProcess);
 					context.Post(_ =>
 					{
 						this.stdOutBox.Text = execInfo.stdout;
 						this.StdErrorView.SetStdError(execInfo.stderr);
 						this.runInfoBox.Text = execInfo.ToMemoryTimeExitCodeString();
-						this.EnableAllTaskRunnerBtn();
+						EnableAllTaskRunnerBtn();
 						this.CurrentTask = null;
 					}, null);
 				});
