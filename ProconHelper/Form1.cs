@@ -101,6 +101,7 @@ namespace ProconHelper
 			}
 
 			DisableAllTaskRunnerBtn();
+			this.runInfoBox.Text = "実行中...";
 			var context = SynchronizationContext.Current;
 			this.CurrentTask = Task.Run(() =>
 				{
