@@ -31,6 +31,7 @@ namespace ProconHelper
 
 		private void SourceFileRefFsBtn_Click(object sender, EventArgs e)
 		{
+			openFileDialog.Filter = UIUtils.FilePickFilterWithAllFile(Program.Setting.ProgrammingLanguage.Name, Program.Setting.ProgrammingLanguage.Extensions);
 			var result = openFileDialog.ShowDialog();
 			if (result == DialogResult.OK) {
 				sourceFileBox.Text = openFileDialog.FileName;
@@ -138,7 +139,6 @@ namespace ProconHelper
 
 		private void SettingsBtn_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("未実装!");
 			var settingForm = new SettingForm(Program.Setting);
 			settingForm.ShowDialog();
 		}

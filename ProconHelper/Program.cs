@@ -21,12 +21,16 @@ namespace ProconHelper
 		[STAThread]
 		static void Main()
 		{
-			foreach(var jsonFile in FileSystem.EnumerateFiles("programming-languages", "*.json")) {
+			foreach(var jsonFile in FileSystem.EnumerateFiles(References.ProgrammingLanguagesFolderName, "*.json")) {
 				var json = FileSystem.ReadFileToEnd(jsonFile);
 				var language = ProgrammingLanguageLoader.LoadFromJson(json);
 				ProgrammingLanguageRegistry.Register(language);
 			}
 			Setting.ProgrammingLanguage = ProgrammingLanguageRegistry.GetOrNull("C++ 14 with Boost (g++)");
+			if(Setting.ProgrammingLanguage == null) {
+				MessageBox.Show("必要なファイルが見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new Form1());

@@ -118,6 +118,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingLanguageLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="References.cs" />
     <Compile Include="Registry\ProgrammingLanguageRegistry.cs" />
     <Compile Include="Util\FileSystemAccessor.cs" />
     <Compile Include="Util\StringUtils.cs" />
@@ -143,6 +144,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="programming-languages\echo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

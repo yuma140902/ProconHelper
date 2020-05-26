@@ -356,7 +356,6 @@
 			// openFileDialog
 			// 
 			this.openFileDialog.FileName = "source.cpp";
-			this.openFileDialog.Filter = "Cファイル|*.cpp|すべてのファイル|*.*";
 			this.openFileDialog.InitialDirectory = "Z:\\tmp\\_procon";
 			this.openFileDialog.Title = "ソース・ファイルを選択";
 			// 

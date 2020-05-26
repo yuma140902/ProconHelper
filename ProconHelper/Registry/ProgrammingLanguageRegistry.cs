@@ -20,5 +20,7 @@ namespace ProconHelper.Registry
 			}
 			return null;
 		}
+
+		public static IEnumerable<string> EnumerateNames() => registry.Keys.AsEnumerable();
 	}
 }

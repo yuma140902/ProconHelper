@@ -1,0 +1,12 @@
+﻿{
+	"name": "echo",
+	"compiler": {
+		"command": "echo {srcPath}",
+		"mode": "InCommandLine"
+	},
+	"execution": {
+		"command": "type {srcPath}",
+		"mode": "InCommandLine"
+	},
+	"extensions": [ ".txt" ]
+}

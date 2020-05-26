@@ -15,5 +15,15 @@ namespace ProconHelper.Util
 			textBox.Select(textBox.TextLength, 0);
 			textBox.ScrollToCaret();
 		}
+
+		public static string FilePickFilterWithAllFile(string type, IEnumerable<string> extensions)
+		{
+			var sb = new StringBuilder();
+			foreach (string extension in extensions) {
+				sb.Append($"{type}ファイル|*{extension}|");
+			}
+			sb.Append("すべてのファイル|*.*");
+			return sb.ToString();
+		}
 	}
 }
