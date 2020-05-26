@@ -308,7 +308,6 @@
 			this.sourceFileBox.Name = "sourceFileBox";
 			this.sourceFileBox.Size = new System.Drawing.Size(383, 19);
 			this.sourceFileBox.TabIndex = 2;
-			this.sourceFileBox.Text = "Z:\\tmp\\_procon\\source.cpp";
 			// 
 			// label1
 			// 
@@ -355,8 +354,6 @@
 			// 
 			// openFileDialog
 			// 
-			this.openFileDialog.FileName = "source.cpp";
-			this.openFileDialog.InitialDirectory = "Z:\\tmp\\_procon";
 			this.openFileDialog.Title = "ソース・ファイルを選択";
 			// 
 			// Form1
