@@ -99,6 +99,7 @@
 			// 
 			// label3
 			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(380, 514);
 			this.label3.Name = "label3";
@@ -108,6 +109,7 @@
 			// 
 			// pasteTestCaseBtn
 			// 
+			this.pasteTestCaseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pasteTestCaseBtn.Location = new System.Drawing.Point(482, 54);
 			this.pasteTestCaseBtn.Name = "pasteTestCaseBtn";
 			this.pasteTestCaseBtn.Size = new System.Drawing.Size(75, 23);
