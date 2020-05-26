@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace ProconHelper
 		{
 			InitializeComponent();
 			loadSettings();
+			setVersionInfo(this.verInfoLabel);
 			FocusMainTab();
 		}
 
@@ -45,6 +47,14 @@ namespace ProconHelper
 			settings.SourceFilePickerInitialDirectory = this.openFileDialog.InitialDirectory;
 			settings.ProgrammingLanguage = Program.Setting.ProgrammingLanguage.Name;
 			settings.Save();
+		}
+
+		private void setVersionInfo(Label label)
+		{
+			var ver = Assembly.GetExecutingAssembly().GetName().Version;
+			label.Text = 
+				$"v{ver.Major}.{ver.Minor}.{ver.Build}\r\n" +
+				"by yuma140902";
 		}
 
 		private void SourceFileRefFsBtn_Click(object sender, EventArgs e)
