@@ -139,8 +139,6 @@ namespace ProconHelper
 		private void SettingsBtn_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("未実装!");
-			var settingForm = new SettingsForm();
-			settingForm.ShowDialog();
 		}
 
 		private void PasteTestCaseBtn_Click(object sender, EventArgs e)
