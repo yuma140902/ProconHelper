@@ -1,5 +1,6 @@
 ﻿using ProconHelper.Forms;
 using ProconHelper.Model;
+using ProconHelper.Properties;
 using ProconHelper.Registry;
 using ProconHelper.Util;
 using System;
@@ -26,7 +27,24 @@ namespace ProconHelper
 		public Form1()
 		{
 			InitializeComponent();
+			loadSettings();
 			FocusMainTab();
+		}
+
+		private void loadSettings()
+		{
+			Settings settings = Settings.Default;
+			this.sourceFileBox.Text = settings.SourceFile;
+			this.openFileDialog.InitialDirectory = settings.SourceFilePickerInitialDirectory;
+		}
+
+		private void saveSettings()
+		{
+			Settings settings = Settings.Default;
+			settings.SourceFile = this.sourceFileBox.Text;
+			settings.SourceFilePickerInitialDirectory = this.openFileDialog.InitialDirectory;
+			settings.ProgrammingLanguage = Program.Setting.ProgrammingLanguage.Name;
+			settings.Save();
 		}
 
 		private void SourceFileRefFsBtn_Click(object sender, EventArgs e)
@@ -150,6 +168,11 @@ namespace ProconHelper
 			}
 			stdInBox.Clear();
 			stdInBox.Text = Clipboard.GetText();
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			saveSettings();
 		}
 	}
 }

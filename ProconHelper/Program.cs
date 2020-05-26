@@ -1,4 +1,5 @@
 ﻿using ProconHelper.Model;
+using ProconHelper.Properties;
 using ProconHelper.Registry;
 using ProconHelper.Util;
 using System;
@@ -26,9 +27,9 @@ namespace ProconHelper
 				var language = ProgrammingLanguageLoader.LoadFromJson(json);
 				ProgrammingLanguageRegistry.Register(language);
 			}
-			Setting.ProgrammingLanguage = ProgrammingLanguageRegistry.GetOrNull("C++ 14 with Boost (g++)");
+			Setting.ProgrammingLanguage = ProgrammingLanguageRegistry.GetOrNull(Settings.Default.ProgrammingLanguage);
 			if(Setting.ProgrammingLanguage == null) {
-				MessageBox.Show("必要なファイルが見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"言語処理系 {Settings.Default.ProgrammingLanguage} の設定ファイルが見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			Application.EnableVisualStyles();

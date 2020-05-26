@@ -364,6 +364,7 @@
 			this.Controls.Add(this.mainTabControl);
 			this.Name = "Form1";
 			this.Text = "競技プログラミング・テストヘルパー";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.mainTabControl.ResumeLayout(false);
 			this.mainTabPage.ResumeLayout(false);
 			this.mainTabPage.PerformLayout();
