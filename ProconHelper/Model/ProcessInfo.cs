@@ -5,12 +5,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ProconHelper.Model
 {
 	class ProcessInfo
 	{
+		public ProcessInfo() { }
+
 		public ProcessInfo(EmbedableString commandAndArguments, RunMode runMode)
 		{
 			this.CommandAndArgs = commandAndArguments;
@@ -19,9 +22,19 @@ namespace ProconHelper.Model
 
 		public EmbedableString Command;
 		public EmbedableString Arguments;
-		public RunMode RunMode;
+
+		[JsonPropertyName("mode")]
+		public RunMode RunMode { get; set; }
+
+		[JsonPropertyName("command")]
+		public string CommandAndArgsForJson {
+			get => this.CommandAndArgs.Image;
+			set => this.CommandAndArgs = new EmbedableString(value);
+		}
+
+		[JsonIgnore]
 		public EmbedableString CommandAndArgs {
-			get => string.IsNullOrWhiteSpace(Arguments.ToString()) ? Command : new EmbedableString($"{Command} {Arguments}");
+			get => string.IsNullOrWhiteSpace(Arguments?.ToString()) ? Command : new EmbedableString($"{Command} {Arguments}");
 			set {
 				string[] cmdAndArg = value.ToString().Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
 				if (cmdAndArg.Length >= 1) Command = new EmbedableString(cmdAndArg[0]);

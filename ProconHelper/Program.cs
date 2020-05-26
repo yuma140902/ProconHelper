@@ -1,4 +1,6 @@
 ﻿using ProconHelper.Model;
+using ProconHelper.Registry;
+using ProconHelper.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +11,9 @@ namespace ProconHelper
 {
 	static class Program
 	{
-		public static readonly ApplicationSetting Setting = new ApplicationSetting()
-		{
-			ProgrammingLanguage = new ProgrammingLanguageInfo()
-			{
-				Name = "C++ 14 with Boost (g++)",
-				CompilerProcessInfo = new ProcessInfo(new EmbedableString("g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}"), RunMode.InCommandLine),
-				ExecutionProcessInfo = new ProcessInfo(new EmbedableString("a.exe"), RunMode.AsOneProcess),
-				Extensions = new List<string>() { ".cpp" }
-			}
-		};
+		public static readonly FileSystemAccessor FileSystem = new FileSystemAccessor(".");
+
+		public static readonly ApplicationSetting Setting = new ApplicationSetting();
 
 		/// <summary>
 		/// アプリケーションのメイン エントリ ポイントです。
@@ -26,6 +21,12 @@ namespace ProconHelper
 		[STAThread]
 		static void Main()
 		{
+			foreach(var jsonFile in FileSystem.EnumerateFiles("programming-languages", "*.json")) {
+				var json = FileSystem.ReadFileToEnd(jsonFile);
+				var language = ProgrammingLanguageLoader.LoadFromJson(json);
+				ProgrammingLanguageRegistry.Register(language);
+			}
+			Setting.ProgrammingLanguage = ProgrammingLanguageRegistry.GetOrNull("C++ 14 with Boost (g++)");
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new Form1());

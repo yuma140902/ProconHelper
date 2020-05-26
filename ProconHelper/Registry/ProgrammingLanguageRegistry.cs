@@ -11,14 +11,7 @@ namespace ProconHelper.Registry
 	{
 		private readonly static Dictionary<string, ProgrammingLanguageInfo> registry = new Dictionary<string, ProgrammingLanguageInfo>();
 
-		public static void Add(ProgrammingLanguageInfo language) => registry.Add(language.Name, language);
-
-		public static void AddAll(IEnumerable<ProgrammingLanguageInfo> languages)
-		{
-			foreach(var language in languages) {
-				Add(language);
-			}
-		}
+		public static void Register(ProgrammingLanguageInfo language) => registry.Add(language.Name, language);
 
 		public static ProgrammingLanguageInfo GetOrNull(string name)
 		{

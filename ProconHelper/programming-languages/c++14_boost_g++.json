@@ -1,0 +1,12 @@
+﻿{
+	"name": "C++ 14 with Boost (g++)",
+	"compiler": {
+		"command": "g++ -std=gnu++14 -O2 -I/opt/boost/gcc/include -L/opt/boost/gcc/lib -o a.exe {srcPath}",
+		"mode": "InCommandLine"
+	},
+	"execution": {
+		"command": "a.exe",
+		"mode": "AsOneProcess"
+	},
+	"extensions": [ ".cpp" ]
+}
