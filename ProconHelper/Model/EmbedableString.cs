@@ -20,8 +20,6 @@ namespace ProconHelper.Model
 			foreach(var value in dictionary.Objects) {
 				string target = value.Key;
 				object obj = value.Value;
-				var embed = EmbedmentRegistry.GetOrNull(target);
-				if (embed == null) continue;
 				image = image.Replace("{" + target + "}", obj.ToString());
 			}
 			return image;
