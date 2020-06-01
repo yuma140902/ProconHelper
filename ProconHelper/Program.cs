@@ -25,11 +25,17 @@ namespace ProconHelper
 			foreach(var jsonFile in FileSystem.EnumerateFiles(References.ProgrammingLanguagesFolderName, "*.json")) {
 				var json = FileSystem.ReadFileToEnd(jsonFile);
 				var language = ProgrammingLanguageLoader.LoadFromJson(json);
-				ProgrammingLanguageRegistry.Register(language);
+				try {
+					ProgrammingLanguageRegistry.Register(language);
+				}
+				catch(ArgumentException) {
+					MessageBox.Show($"言語処理系「{language.Name}」の定義が重複しています。\r\n\r\nError at \"{jsonFile}\"", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 			}
 			Setting.ProgrammingLanguage = ProgrammingLanguageRegistry.GetOrNull(Settings.Default.ProgrammingLanguage);
 			if(Setting.ProgrammingLanguage == null) {
-				MessageBox.Show($"言語処理系 {Settings.Default.ProgrammingLanguage} の設定ファイルが見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"言語処理系「{Settings.Default.ProgrammingLanguage}」の設定ファイルが見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			Application.EnableVisualStyles();
